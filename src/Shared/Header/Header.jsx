@@ -1,12 +1,27 @@
 import { useState } from "react";
 import { Dialog, Popover } from "@headlessui/react";
 import { IoReorderThree } from "react-icons/io5";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { RxCross2 } from "react-icons/rx";
+import useAuth from "../../Hooks/useAuth";
+import toast from "react-hot-toast";
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
+  const handelLogout = () => {
+    logout()
+      .then(() => {
+        toast.success("Sign out Success!");
+        navigate("/login");
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error(err.message);
+      });
+  };
 
   const navProducts = (
     <>
@@ -64,9 +79,13 @@ const Header = () => {
         <Popover.Group className="hidden lg:flex items-center justify-center lg:gap-x-12">
           {navProducts}
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-            <Link to="/login">
-              Log in
-            </Link>
+            {user ? (
+              <Link onClick={handelLogout} to="/login">
+                Sign out
+              </Link>
+            ) : (
+              <Link to="/login">Log in</Link>
+            )}
           </div>
         </Popover.Group>
       </nav>
@@ -81,9 +100,7 @@ const Header = () => {
           <div className="flex items-center justify-between">
             <a href="#" className="-m-1.5 p-1.5">
               <span className="sr-only">Your Company</span>
-              <h2 className="text-3xl font-bold text-slate-600">
-                RP
-              </h2>
+              <h2 className="text-3xl font-bold text-slate-600">RP</h2>
             </a>
             <button
               type="button"

@@ -11,7 +11,7 @@ import {
 import { createContext, useEffect, useState } from "react";
 import auth from "../Auth/firebase.config";
 
-const AuthContext = createContext();
+export const AuthContext = createContext();
 
 const googleProvider = new GoogleAuthProvider();
 
@@ -51,6 +51,7 @@ const AuthProvider = ({ children }) => {
       setLoading(false);
     });
     return () => {
+      setLoading(false);
       return unsubscribe;
     };
   }, []);

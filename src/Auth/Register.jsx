@@ -1,14 +1,33 @@
 import { useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import useAuth from "../Hooks/useAuth";
+import toast from "react-hot-toast";
 
 const Register = () => {
+  const { userCreate, updateUser } = useAuth();
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = async (data) => {
+    try {
+      const res = await userCreate(data.email, data.password);
+      if (res.operationType === "signIn") {
+        toast.success("User created success.");
+        navigate("/");
+      } else {
+        toast.error("User created Failed!");
+        navigate("/register");
+      }
+      await updateUser(data.name);
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
 
   return (
     <section className=" w-11/12 md:w-7/12 mx-auto mt-10 mb-10 border rounded-xl shadow-md bg-slate-50 md:p-10 p-2">
@@ -29,7 +48,7 @@ const Register = () => {
         </button>
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="w-full mb-5">
+        <div className="w-full mb-5">
           <label className="font-medium label">Ful Name</label>
           <input
             className=" w-full py-3 px-4 rounded-md shadow-md bg-slate-50"
@@ -40,9 +59,7 @@ const Register = () => {
             {...register("name", { required: "Name is required" })}
           />
           {errors.name && (
-            <p className="text-red-500 text-xs italic">
-              {errors.name.message}
-            </p>
+            <p className="text-red-500 text-xs italic">{errors.name.message}</p>
           )}
         </div>
         <div className="w-full mb-5">
@@ -98,7 +115,8 @@ const Register = () => {
           Already have an account?{" "}
           <Link to="/login" className=" text-green-600 underline">
             Log in
-          </Link> now
+          </Link>{" "}
+          now
         </div>
       </form>
     </section>
