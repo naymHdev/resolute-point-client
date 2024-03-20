@@ -5,7 +5,7 @@ import useAuth from "../Hooks/useAuth";
 import toast from "react-hot-toast";
 
 const Register = () => {
-  const { userCreate, updateUser } = useAuth();
+  const { userCreate, updateUser, googleLogin } = useAuth();
   const navigate = useNavigate();
 
   const {
@@ -29,6 +29,12 @@ const Register = () => {
     }
   };
 
+  const handleGoogle = async () => {
+    await googleLogin();
+    toast.success("User Account Create Success!");
+    navigate("/");
+  };
+
   return (
     <section className=" w-11/12 md:w-7/12 mx-auto mt-10 mb-10 border rounded-xl shadow-md bg-slate-50 md:p-10 p-2">
       <div>
@@ -42,7 +48,7 @@ const Register = () => {
         </p>
       </div>
       <div className=" mt-5 mb-8">
-        <button className=" bg-slate-100 hover:bg-slate-200 shadow-md w-full text-center justify-center flex items-center gap-2 rounded-xl py-3 font-bold">
+        <button onClick={handleGoogle} className=" bg-slate-100 hover:bg-slate-200 shadow-md w-full text-center justify-center flex items-center gap-2 rounded-xl py-3 font-bold">
           <FcGoogle className=" text-2xl" />
           <span className=" text-slate-700">Continue with Google</span>
         </button>
