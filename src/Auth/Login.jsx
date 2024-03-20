@@ -16,7 +16,7 @@ const Login = () => {
         <h3 className=" text-2xl font-bold">Resolute Point</h3>
       </div>
       <div className=" mt-10">
-        <h3 className=" text-xl font-semibold">Create your account</h3>
+        <h3 className=" text-xl font-semibold">Log in your account</h3>
         <p className=" text-sm font-medium text-slate-600">
           Unlock exclusive perks - Sign up now for early access and special
           offers!{" "}
@@ -76,13 +76,13 @@ const Login = () => {
           </button>
         </div>
         <div
-          className=" font-medium mt-1
+          className=" font-medium mt-4
         "
         >
-          Already have an account?{" "}
-          <Link to="/register" className=" text-green-600">
+          Do't have an account?{" "}
+          <Link to="/register" className=" text-green-600 underline">
             Sign in
-          </Link>
+          </Link> now
         </div>
       </form>
     </section>
