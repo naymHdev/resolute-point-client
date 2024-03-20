@@ -39,7 +39,7 @@ const Header = () => {
   return (
     <header className="relative ">
       <nav
-        className="bg-white shadow-md px-5 flex items-center justify-between py-5"
+        className="bg-white shadow-sm px-5 flex items-center justify-between py-5"
         aria-label="Global"
       >
         <div className="flex lg:flex-1">
