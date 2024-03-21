@@ -20,7 +20,7 @@ const Register = () => {
     const userInfo = { name, email };
 
     try {
-      const resp = await axios.post("http://localhost:5000/users", userInfo);
+      const resp = await axios.post("https://resolute-point-server.vercel.app/users", userInfo);
       const res = await userCreate(data.email, data.password);
       if (res.operationType === "signIn" || resp.data === "acknowledged") {
         toast.success("User created success.");

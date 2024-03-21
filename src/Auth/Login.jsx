@@ -28,7 +28,7 @@ const Login = () => {
 
   const handleGoogle = async () => {
     await googleLogin();
-    toast.success("User Account Create Success!");
+    toast.success("User Account Log in Success!");
     navigate("/");
   };
 
