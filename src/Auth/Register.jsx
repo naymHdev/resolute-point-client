@@ -3,6 +3,7 @@ import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../Hooks/useAuth";
 import toast from "react-hot-toast";
+import axios from "axios";
 
 const Register = () => {
   const { userCreate, updateUser, googleLogin } = useAuth();
@@ -14,9 +15,14 @@ const Register = () => {
     formState: { errors },
   } = useForm();
   const onSubmit = async (data) => {
+    const name = data.name;
+    const email = data.email;
+    const userInfo = { name, email };
+
     try {
+      const resp = await axios.post("http://localhost:5000/users", userInfo);
       const res = await userCreate(data.email, data.password);
-      if (res.operationType === "signIn") {
+      if (res.operationType === "signIn" || resp.data === "acknowledged") {
         toast.success("User created success.");
         navigate("/");
       } else {
@@ -48,7 +54,10 @@ const Register = () => {
         </p>
       </div>
       <div className=" mt-5 mb-8">
-        <button onClick={handleGoogle} className=" bg-slate-100 hover:bg-slate-200 shadow-md w-full text-center justify-center flex items-center gap-2 rounded-xl py-3 font-bold">
+        <button
+          onClick={handleGoogle}
+          className=" bg-slate-100 hover:bg-slate-200 shadow-md w-full text-center justify-center flex items-center gap-2 rounded-xl py-3 font-bold"
+        >
           <FcGoogle className=" text-2xl" />
           <span className=" text-slate-700">Continue with Google</span>
         </button>
